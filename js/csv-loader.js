@@ -112,4 +112,50 @@ function formatDate(dateString) {
 }
 
 // Start loading the CSV file as soon as possible
-document.addEventListener('DOMContentLoaded', loadProjectsFromCSV);
+document.addEventListener('DOMContentLoaded', function() {
+    fetch('./data/nepal_projects.csv')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text();
+        })
+        .then(data => {
+            const projects = parseCSV(data);
+            displayProjects(projects);
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+        });
+});
+
+function displayProjects(projects) {
+    const projectsTable = document.getElementById('projects-table');
+    const tileGrid = document.getElementById('tile-grid');
+    projectsTable.innerHTML = '';
+    tileGrid.innerHTML = '';
+
+    projects.forEach(project => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${project['Project Name']}</td>
+            <td>${project['Type']}</td>
+            <td>${project['Sub-Type']}</td>
+            <td>${project['Province']}</td>
+            <td>${project['Status']}</td>
+            <td><a href="${project['Detail Page']}" class="btn btn-small">View</a></td>
+        `;
+        projectsTable.appendChild(row);
+
+        const tile = document.createElement('div');
+        tile.className = 'project-tile';
+        tile.innerHTML = `
+            <h3>${project['Project Name']}</h3>
+            <p><strong>Type:</strong> ${project['Type']}</p>
+            <p><strong>Location:</strong> ${project['Province']}</p>
+            <p><strong>Status:</strong> ${project['Status']}</p>
+            <a href="${project['Detail Page']}" class="btn btn-small">View Details</a>
+        `;
+        tileGrid.appendChild(tile);
+    });
+}
