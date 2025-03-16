@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nepal Infrastructure Projects - Bibas Pokhrel</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Project display styles */
+        .projects-display {
+            position: relative;
+        }
+        
+        .projects-grid {
+            display: none;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .projects-grid.active {
+            display: grid;
+            opacity: 1;
+        }
+        
+        .table-view {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .table-view.active {
+            display: block;
+            opacity: 1;
+        }
+        
+        /* Project tile styles */
+        .project-tile {
+            background: var(--card-bg, #f8f8f8);
+            border: 1px solid var(--border-color, #ddd);
+            border-radius: 8px;
+            padding: 15px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+        }
+        
+        .project-tile:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+            background-color: var(--accent-light, #e6f2ff);
+        }
+        
+        /* Layout toggle button styles */
+        .layout-toggle button {
+            background: transparent;
+            border: 1px solid var(--border-color, #ddd);
+            padding: 5px 12px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        .layout-toggle button.active {
+            background: var(--accent-color, #4a90e2);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Bibas Pokhrel</div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="research.html">Research Summaries</a></li>
+                <li><a href="news.html">What's New</a></li>
+                <li><a href="projects.html" class="active">Projects</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark/light theme">
+            <!-- Icon will be added by JavaScript -->
+        </button>
+    </header>
+
+    <main>
+        <section class="page-header">
+            <h1>Nepal Infrastructure Projects</h1>
+            <p>A comprehensive database of infrastructure projects across Nepal</p>
+        </section>
+
+        <section class="filters">
+            <div class="filter-container">
+                <div class="filter-heading">
+                    <h2>Filter Projects</h2>
+                </div>
+                
+                <div class="filter-options">
+                    <div class="filter-group">
+                        <label for="project-type">Project Type</label>
+                        <select id="project-type">
+                            <option value="">All Project Types</option>
+                            <option value="Transportation">Transportation</option>
+                            <option value="Energy">Energy</option>
+                            <option value="Water Infrastructure">Water Infrastructure</option>
+                            <option value="Rural and Urban Development">Rural and Urban Development</option>
+                            <option value="Tourism and Cultural Infrastructure">Tourism and Cultural Infrastructure</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="location">Location</label>
+                        <select id="location">
+                            <option value="">All Locations</option>
+                            <option value="Bagmati">Bagmati</option>
+                            <option value="Madhesh">Madhesh</option>
+                            <option value="Gandaki">Gandaki</option>
+                            <option value="Koshi">Koshi</option>
+                            <option value="Karnali">Karnali</option>
+                            <option value="Lumbini">Lumbini</option>
+                            <option value="Sudurpaschim">Sudurpaschim</option>
+                            <option value="Multiple Provinces">Multiple Provinces</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="status">Project Status</label>
+                        <select id="status">
+                            <option value="">All Statuses</option>
+                            <option value="Ongoing">Ongoing</option>
+                            <option value="Completed">Completed and operational</option>
+                            <option value="Planning">Planning phase</option>
+                            <option value="Halted">Halted</option>
+                            <option value="Unknown">Unknown</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="keyword">Search by Keyword</label>
+                        <input type="text" id="keyword" placeholder="Enter keyword...">
+                    </div>
+                </div>
+                
+                <div class="filter-actions">
+                    <button id="apply-filters" class="btn btn-primary">Apply Filters</button>
+                    <button id="reset-filters" class="btn btn-secondary">Reset Filters</button>
+                </div>
+            </div>
+            
+            <div class="view-controls">
+                <div class="results-count">
+                    <span id="result-count">31</span> Projects Found
+                </div>
+                
+                <div class="sort-options">
+                    <label for="sort-by">Sort by</label>
+                    <select id="sort-by">
+                        <option value="name-asc">Name (A-Z)</option>
+                        <option value="name-desc">Name (Z-A)</option>
+                        <option value="date-asc">Start Date (Oldest first)</option>
+                        <option value="date-desc">Start Date (Newest first)</option>
+                    </select>
+                </div>
+                
+                <div class="layout-toggle">
+                    <button id="tile-view" class="active">Tile View</button>
+                    <button id="table-view">Table View</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="projects-display">
+            <div id="tile-grid" class="projects-grid active">
+                <!-- Will be populated by JavaScript -->
+            </div>
+            
+            <div id="table-container" class="table-view">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Project Name</th>
+                            <th>Type</th>
+                            <th>Sub-Type</th>
+                            <th>Province</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="projects-table">
+                        <!-- Will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="pagination">
+                <button id="prev-page" class="btn btn-pagination" disabled>Previous</button>
+                <div id="page-numbers" class="page-numbers">
+                    <span class="page-number active">1</span>
+                </div>
+                <button id="next-page" class="btn btn-pagination">Next</button>
+            </div>
+        </section>
+        <div id="projects-container"></div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Bibas Pokhrel. All rights reserved.</p>
+    </footer>
+
+    <script src="js/theme-toggle.js"></script>
+    <script src="js/csv-loader.js"></script>
+    <script src="css/js/data.js"></script>
+    <script src="css/js/projects.js"></script>
+    <script src="projects.js"></script>
+    <script src="data.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tileViewBtn = document.getElementById('tile-view');
+            const tableViewBtn = document.getElementById('table-view');
+            const tileGrid = document.getElementById('tile-grid');
+            const tableContainer = document.getElementById('table-container');
+            
+            // Toggle between tile and table views
+            tileViewBtn.addEventListener('click', function() {
+                if (!this.classList.contains('active')) {
+                    // Switch to tile view
+                    tileViewBtn.classList.add('active');
+                    tableViewBtn.classList.remove('active');
+                    
+                    // Add active class to tile grid first to start transition
+                    tileGrid.classList.add('active');
+                    
+                    // Short delay before hiding the table to ensure smooth transition
+                    setTimeout(() => {
+                        tableContainer.classList.remove('active');
+                    }, 50);
+                }
+            });
+            
+            tableViewBtn.addEventListener('click', function() {
+                if (!this.classList.contains('active')) {
+                    // Switch to table view
+                    tableViewBtn.classList.add('active');
+                    tileViewBtn.classList.remove('active');
+                    
+                    // Add active class to table container first to start transition
+                    tableContainer.classList.add('active');
+                    
+                    // Short delay before hiding the tiles to ensure smooth transition
+                    setTimeout(() => {
+                        tileGrid.classList.remove('active');
+                    }, 50);
+                }
+            });
+            
+            // Function to create project tiles with hover effect
+            function createProjectTile(project) {
+                const tile = document.createElement('div');
+                tile.className = 'project-tile';
+                
+                // Add project data to tile
+                tile.innerHTML = `
+                    <h3>${project.name}</h3>
+                    <p><strong>Type:</strong> ${project.type}</p>
+                    <p><strong>Location:</strong> ${project.province}</p>
+                    <p><strong>Status:</strong> ${project.status}</p>
+                    <button class="btn btn-small">View Details</button>
+                `;
+                
+                return tile;
+            }
+            
+            // This function would be called when your project data is loaded
+            // to populate the tile grid with 3-tiles-per-row layout
+            function displayProjectsAsTiles(projects) {
+                tileGrid.innerHTML = '';
+                projects.forEach(project => {
+                    const tile = createProjectTile(project);
+                    tileGrid.appendChild(tile);
+                });
+            }
+            
+            // Note: This is just a placeholder - you would need to integrate
+            // this with your existing project loading and filtering logic
+        });
+    </script>
+</body>
+</html>
