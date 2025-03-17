@@ -15,13 +15,19 @@
             margin: 0 auto;
             display: block;
             border: 3px solid #0078d7;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         
+        .circle-img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
         .profile-photo {
             width: 300px;
             height: 300px;
         }
-        
+
         .small-circle-img {
             border-radius: 50%;
             object-fit: cover;
@@ -37,6 +43,81 @@
             border-radius: 5px;
             margin: 20px 0;
             border-left: 5px solid #ffeeba;
+        }
+
+        .cta-buttons a {
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+        }
+
+        .cta-buttons a:hover {
+            transform: translateY(-3px);
+        }
+
+        .project-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .social-links {
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .social-logo {
+            width: 30px;
+            height: 30px;
+            transition: transform 0.3s ease;
+        }
+
+        .social-logo:hover {
+            transform: scale(1.1);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .circle-img {
+                width: 200px;
+                height: 200px;
+            }
+
+            .profile-photo {
+                width: 200px;
+                height: 200px;
+            }
+
+            .cta-buttons {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .cta-buttons a {
+                width: 100%;
+                text-align: center;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -71,6 +152,15 @@
             
             <div class="profile-image">
                 <img src="images/bibas_profile.jpg" alt="Nepal BIM Forum; Conference 2024" class="circle-img profile-photo">
+            </div>
+            
+            <div class="social-links">
+                <a href="https://www.facebook.com/yourprofile" target="_blank">
+                    <img src="images/facebook-logo.png" alt="Facebook" class="social-logo">
+                </a>
+                <a href="https://www.linkedin.com/in/yourprofile" target="_blank">
+                    <img src="images/linkedin-logo.png" alt="LinkedIn" class="social-logo">
+                </a>
             </div>
             
             <div class="cta-buttons">

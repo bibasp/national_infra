@@ -1,20 +1,3 @@
-const JSON_FILE_PATH = 'data/nepal_projects.json';
-
-function loadProjectsFromJSON() {
-    console.log(`Loading projects from JSON: ${JSON_FILE_PATH}`);
-    return fetch(JSON_FILE_PATH)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`Failed to load JSON file (Status: ${response.status})`);
-            }
-            return response.json();
-        })
-        .then(projects => {
-            console.log(`Loaded ${projects.length} projects from JSON`, projects);
-            return projects;
-        });
-}
-
 document.addEventListener('DOMContentLoaded', function() {
     // DOM Elements - Updated to match IDs in HTML
     const tileViewBtn = document.getElementById('tile-view');
@@ -31,32 +14,20 @@ document.addEventListener('DOMContentLoaded', function() {
     const resetFiltersBtn = document.getElementById('reset-filters');
     const sortBySelect = document.getElementById('sort-by');
     
-    // Store all projects in memory to avoid reloading JSON
-    let allProjects = [];
-    
     // Display loading indicator
     projectsGrid.innerHTML = '<div class="loading">Loading projects...</div>';
     resultCountElement.textContent = '...';
     
-    // Set tile view as active by default
-    tileViewBtn.classList.add('active');
-    projectsGrid.classList.add('active');
-    
-    // Wait for JSON data to load, then initialize the page
-    loadProjectsFromJSON().then(projects => {
-        // Store all projects for later filtering
-        allProjects = projects;
-        
+    // Wait for CSV data to load, then initialize the page
+    loadProjectsFromCSV().then(projects => {
         // Update the count with actual number of projects
         resultCountElement.textContent = projects.length;
-        console.log(`Loaded ${projects.length} projects successfully`);
         
         if (projects.length === 0) {
             projectsGrid.innerHTML = `
                 <div class="error-message">
                     <h3>No projects found</h3>
-                    <p>Please check if the JSON file exists at "${JSON_FILE_PATH}" and has valid data.</p>
-                    <p>Make sure the JSON file has the correct format with headers and data rows.</p>
+                    <p>Please check if the CSV file exists at "data/nepal_projects.csv" and has valid data.</p>
                 </div>`;
             return;
         }
@@ -76,11 +47,11 @@ document.addEventListener('DOMContentLoaded', function() {
         if (typeof projectsData !== 'undefined' && projectsData.length > 0) {
             console.log('Falling back to static data from data.js');
             // Use the static data instead
-            allProjects = projectsData;
-            resultCountElement.textContent = allProjects.length;
+            const projects = projectsData;
+            resultCountElement.textContent = projects.length;
             projectsGrid.innerHTML = '';
-            renderProjects(sortProjects(allProjects, sortBySelect.value));
-            updateFilterOptions(allProjects);
+            renderProjects(sortProjects(projects, sortBySelect.value));
+            updateFilterOptions(projects);
         } else {
             // Show error message if no fallback data
             projectsGrid.innerHTML = `
@@ -91,28 +62,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     <p class="troubleshoot-tips">
                         <strong>Troubleshooting tips:</strong>
                         <ul>
-                            <li>If running locally, please use a local web server instead of opening files directly (due to CORS restrictions).</li>
-                            <li>Check that the file path is correct: ${JSON_FILE_PATH}</li>
-                            <li>Make sure the JSON file exists and has proper permissions.</li>
-                            <li>Verify the JSON file format is correct with headers in the first row.</li>
+                            <li>If running locally, please use a local web server instead of opening files directly.</li>
+                            <li>Check that the file path is correct: ${CSV_FILE_PATH}</li>
+                            <li>Make sure the CSV file exists and has proper permissions.</li>
                         </ul>
-                    </p>
-                    <p>
-                        <strong>Alternative solution:</strong> Create a 'data.js' file in the same directory with sample project data:
-                        <pre>
-const projectsData = [
-  {
-    "project_id": "1",
-    "project_name": "Sample Highway Project",
-    "type_main_category": "Transportation",
-    "type_sub_category": "Highway",
-    "Province": "Province 1",
-    "status": "Ongoing",
-    "physical_progress_percent": "45"
-  },
-  // Add more sample projects here...
-];
-                        </pre>
                     </p>
                 </div>`;
             resultCountElement.textContent = '0';
@@ -143,33 +96,33 @@ const projectsData = [
         const sortValue = sortBySelect.value;
         
         // Show loading state
-        projectsGrid.innerHTML = '<div class="loading">Filtering projects...</div>';
+        projectsGrid.innerHTML = '<div class="loading">Loading projects...</div>';
         projectsTable.innerHTML = '';
         
-        // Use the stored projects data instead of reloading from JSON
-        // Filter projects
-        let filteredProjects = allProjects.filter(project => {
-            return (!typeValue || project.type_main_category === typeValue) && 
-                   (!locationValue || project.Province === locationValue) &&
-                   (!statusValue || (project.status && project.status.includes(statusValue))) &&
-                   (!keyword || 
-                    (project.project_name && project.project_name.toLowerCase().includes(keyword)) || 
-                    (project.type_main_category && project.type_main_category.toLowerCase().includes(keyword)) ||
-                    (project.type_sub_category && project.type_sub_category.toLowerCase().includes(keyword)));
+        // Get fresh data from CSV and apply filters
+        loadProjectsFromCSV().then(projects => {
+            // Filter projects
+            let filteredProjects = projects.filter(project => {
+                return (!typeValue || project.type_main_category === typeValue) && 
+                       (!locationValue || project.Province === locationValue) &&
+                       (!statusValue || (project.status && project.status.includes(statusValue))) &&
+                       (!keyword || 
+                        (project.project_name && project.project_name.toLowerCase().includes(keyword)) || 
+                        (project.type_main_category && project.type_main_category.toLowerCase().includes(keyword)) ||
+                        (project.type_sub_category && project.type_sub_category.toLowerCase().includes(keyword)));
+            });
+            
+            // Sort projects
+            filteredProjects = sortProjects(filteredProjects, sortValue);
+            
+            // Update result count
+            resultCountElement.textContent = filteredProjects.length;
+            
+            // Render the projects
+            projectsGrid.innerHTML = '';
+            projectsTable.innerHTML = '';
+            renderProjects(filteredProjects);
         });
-        
-        // Sort projects
-        filteredProjects = sortProjects(filteredProjects, sortValue);
-        
-        // Update result count
-        resultCountElement.textContent = filteredProjects.length;
-        
-        // Clear containers before rendering
-        projectsGrid.innerHTML = '';
-        projectsTable.innerHTML = '';
-        
-        // Render the projects
-        renderProjects(filteredProjects);
     }
     
     // Update filter options based on available data
@@ -239,23 +192,8 @@ const projectsData = [
     
     // Render function
     function renderProjects(projects) {
-        console.log(`Rendering ${projects.length} projects`);
-        
-        // Check if containers are available
-        if (!projectsGrid) {
-            console.error("Project grid container not found!");
-            return;
-        }
-        
-        if (!projectsTable) {
-            console.error("Project table container not found!");
-            return;
-        }
-        
         // Render grid view
-        projects.forEach((project, index) => {
-            console.log(`Rendering project ${index + 1}: ${project.project_name || 'Unnamed'}`);
-            
+        projects.forEach(project => {
             const card = document.createElement('div');
             card.className = 'project-card';
             
@@ -296,9 +234,6 @@ const projectsData = [
             
             projectsTable.appendChild(row);
         });
-        
-        // Log completion
-        console.log('Rendering complete');
     }
     
     // Get status class
