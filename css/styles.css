@@ -159,6 +159,35 @@ nav a.active::after {
     fill: currentColor;
 }
 
+/* Authentication-related styles */
+.user-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.username {
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.logout-btn {
+    background-color: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+    padding: 0.3rem 0.8rem;
+    border-radius: var(--btn-radius);
+    cursor: pointer;
+    font-size: var(--font-size-sm);
+    transition: var(--transition);
+}
+
+.logout-btn:hover {
+    background-color: var(--accent);
+    color: white;
+    border-color: var(--accent);
+}
+
 /* Layout */
 main {
     max-width: 1200px;
@@ -657,7 +686,7 @@ tbody tr:hover {
 .detail-section h2 {
     font-size: var(--font-size-lg);
     margin-bottom: 1rem;
-    color: var (--accent);
+    color: var(--accent);
     padding-bottom: 0.5rem;
     border-bottom: 1px solid var(--border);
 }
@@ -925,234 +954,4 @@ footer {
 
 .btn-outline:hover {
     background-color: rgba(33, 150, 243, 0.1);
-}
-
-/* Projects page specific styles */
-.filters {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-    flex-wrap: wrap;
-}
-
-.filter-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    margin-bottom: 15px;
-}
-
-.filter-group {
-    display: flex;
-    flex-direction: column;
-}
-
-.filter-group label {
-    font-size: 0.8rem;
-    margin-bottom: 5px;
-    font-weight: 600;
-}
-
-.filter-group select {
-    padding: 8px 12px;
-    border: 1px solid #e0e0e0;
-    border-radius: 4px;
-    background-color: #fff;
-    font-size: 0.9rem;
-    min-width: 150px;
-}
-
-.view-controls {
-    display: flex;
-    gap: 10px;
-}
-
-.view-controls button {
-    width: 40px;
-    height: 40px;
-    border: 1px solid #e0e0e0;
-    background-color: #fff;
-    border-radius: 4px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s ease;
-}
-
-.view-controls button:hover {
-    background-color: #f5f5f5;
-}
-
-.view-controls button.active {
-    background-color: #4a90e2;
-    color: #fff;
-    border-color: #4a90e2;
-}
-
-.project-results {
-    margin-bottom: 3rem;
-}
-
-.result-count {
-    margin-bottom: 1rem;
-    font-size: 0.9rem;
-    color: #666;
-}
-
-/* Grid view */
-.projects-list.grid-view {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
-}
-
-.project-card {
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    background-color: #fff;
-}
-
-.project-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-}
-
-/* List view */
-.projects-list.list-view {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.project-list-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    background-color: #fff;
-}
-
-.list-item-main {
-    flex: 1;
-}
-
-.list-item-main h3 {
-    margin: 0 0 8px;
-    font-size: 1.1rem;
-}
-
-.list-item-meta {
-    display: flex;
-    gap: 15px;
-    font-size: 0.85rem;
-}
-
-.list-item-progress {
-    width: 120px;
-    text-align: center;
-}
-
-.list-item-action {
-    margin-left: 15px;
-}
-
-/* Status indicators */
-.project-status {
-    display: inline-block;
-    font-size: 0.8rem;
-    padding: 3px 8px;
-    border-radius: 4px;
-    font-weight: 600;
-}
-
-.status-ongoing {
-    background-color: #ffefd5;
-    color: #ff8c00;
-}
-
-.status-complete, .status-operational {
-    background-color: #e6f7e6;
-    color: #28a745;
-}
-
-.status-partially {
-    background-color: #e6f0ff;
-    color: #4a90e2;
-}
-
-.status-halted {
-    background-color: #ffebee;
-    color: #dc3545;
-}
-
-.status-planning {
-    background-color: #f5f5f5;
-    color: #6c757d;
-}
-
-.status-unknown {
-    background-color: #f5f5f5;
-    color: #6c757d;
-}
-
-.no-results, .error {
-    text-align: center;
-    padding: 40px;
-    color: #666;
-    font-size: 1.1rem;
-}
-
-.error {
-    color: #dc3545;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .projects-list.grid-view {
-        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    }
-    
-    .project-list-item {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    
-    .list-item-main {
-        width: 100%;
-        margin-bottom: 15px;
-    }
-    
-    .list-item-progress {
-        width: 100%;
-        margin-bottom: 15px;
-    }
-    
-    .list-item-action {
-        margin-left: 0;
-        width: 100%;
-    }
-    
-    .list-item-action .btn-detail {
-        width: 100%;
-        text-align: center;
-    }
-    
-    .filter-container {
-        flex-direction: column;
-        width: 100%;
-    }
-    
-    .filter-group {
-        width: 100%;
-    }
-    
-    .filter-group select {
-        width: 100%;
-    }
 }
