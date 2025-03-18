@@ -53,6 +53,7 @@
             transform: translateY(30px);
             opacity: 0;
             animation: none;
+            cursor: pointer;
         }
         
         .day-card.animate {
@@ -93,6 +94,10 @@
         
         .day-content {
             padding: 1.25rem;
+            max-height: 150px;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            position: relative;
         }
         
         .objectives-list {
@@ -295,6 +300,91 @@
             .tab-buttons {
                 justify-content: start;
             }
+        }
+        
+        .day-card .content-fade {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50px;
+            background: linear-gradient(to bottom, transparent, var(--bg-card));
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        .day-card .expand-indicator {
+            text-align: center;
+            padding: 0.5rem;
+            color: var(--accent);
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .day-card.expanded .day-content {
+            max-height: 2000px;
+        }
+        
+        .day-card.expanded .content-fade {
+            opacity: 0;
+        }
+        
+        .day-card.expanded .expand-indicator i {
+            transform: rotate(180deg);
+        }
+        
+        /* Make expansion styles specific to foundation tab */
+        #foundation .day-card .day-content {
+            max-height: 150px;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            position: relative;
+        }
+        
+        #all-phases .day-card .day-content {
+            max-height: none; /* Ensure all-phases tab has no height restriction */
+            overflow: visible;
+        }
+        
+        .day-card .content-fade {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50px;
+            background: linear-gradient(to bottom, transparent, var(--bg-card));
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            display: none; /* Hide by default */
+        }
+        
+        #foundation .day-card .content-fade {
+            display: block; /* Only show in foundation tab */
+        }
+        
+        .day-card .expand-indicator {
+            text-align: center;
+            padding: 0.5rem;
+            color: var(--accent);
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+            display: none; /* Hide by default */
+        }
+        
+        #foundation .day-card .expand-indicator {
+            display: block; /* Only show in foundation tab */
+        }
+        
+        #foundation .day-card.expanded .day-content {
+            max-height: 2000px;
+        }
+        
+        #foundation .day-card.expanded .content-fade {
+            opacity: 0;
+        }
+        
+        #foundation .day-card.expanded .expand-indicator i {
+            transform: rotate(180deg);
         }
     </style>
 </head>
@@ -1424,8 +1514,7 @@
     </div>
 
     <footer>
-        <p>© 2025 Computer Vision for Construction & SHM. All rights reserved.</p>
-        <p>Current Date: Tuesday, March 18, 2025, 8:42 AM +0545</p>
+        <p>© 2025 Bibas Pokhrel. All rights reserved.</p>
     </footer>
 
     <script src="index.js"></script>
@@ -1454,6 +1543,47 @@
                 button.classList.add('active');
                 const tabId = button.getAttribute('data-tab');
                 document.getElementById(tabId).classList.add('active');
+                
+                // Special handling for foundation tab
+                if (tabId === 'foundation') {
+                    // Add fade overlay and expand indicators to all day cards
+                    setTimeout(() => {
+                        const foundationCards = document.querySelectorAll('#foundation .day-card');
+                        foundationCards.forEach(card => {
+                            // Skip if already processed
+                            if (card.querySelector('.expand-indicator')) return;
+                            
+                            // Create fade overlay
+                            const fadeOverlay = document.createElement('div');
+                            fadeOverlay.className = 'content-fade';
+                            card.querySelector('.day-content').appendChild(fadeOverlay);
+                            
+                            // Add expand indicator
+                            const expandIndicator = document.createElement('div');
+                            expandIndicator.className = 'expand-indicator';
+                            expandIndicator.innerHTML = '<i class="fas fa-chevron-down"></i>';
+                            card.appendChild(expandIndicator);
+                            
+                            // Add click handler
+                            card.addEventListener('click', function(e) {
+                                // Don't trigger expansion when clicking links or buttons
+                                if (e.target.tagName === 'A' || e.target.tagName === 'BUTTON' || 
+                                    e.target.closest('a') || e.target.closest('button')) {
+                                    return;
+                                }
+                                
+                                this.classList.toggle('expanded');
+                                
+                                // If card is now expanded, scroll it into better view
+                                if (this.classList.contains('expanded')) {
+                                    setTimeout(() => {
+                                        this.scrollIntoView({behavior: 'smooth', block: 'center'});
+                                    }, 100);
+                                }
+                            });
+                        });
+                    }, 100);
+                }
             });
         });
         
@@ -1562,6 +1692,60 @@
         // When the document is fully loaded
         document.addEventListener('DOMContentLoaded', function() {
             updateProgressDisplay();
+            
+            // Only add expand/collapse functionality to the foundation tab cards
+            const foundationCards = document.querySelectorAll('#foundation .day-card');
+            foundationCards.forEach(card => {
+                // Create fade overlay
+                const fadeOverlay = document.createElement('div');
+                fadeOverlay.className = 'content-fade';
+                card.querySelector('.day-content').appendChild(fadeOverlay);
+                
+                // Add expand indicator
+                const expandIndicator = document.createElement('div');
+                expandIndicator.className = 'expand-indicator';
+                expandIndicator.innerHTML = '<i class="fas fa-chevron-down"></i>';
+                card.appendChild(expandIndicator);
+                
+                // Make cards clickable only in the foundation tab
+                card.addEventListener('click', function(e) {
+                    // Don't trigger expansion when clicking links or buttons inside the card
+                    if (e.target.tagName === 'A' || e.target.tagName === 'BUTTON' || 
+                        e.target.closest('a') || e.target.closest('button')) {
+                        return;
+                    }
+                    
+                    this.classList.toggle('expanded');
+                    
+                    // If card is now expanded, scroll it into better view
+                    if (this.classList.contains('expanded')) {
+                        setTimeout(() => {
+                            this.scrollIntoView({behavior: 'smooth', block: 'center'});
+                        }, 100);
+                    }
+                });
+            });
+            
+            // Remove any existing event handlers from all-phases cards to ensure they don't expand
+            const allPhasesCards = document.querySelectorAll('#all-phases .day-card');
+            allPhasesCards.forEach(card => {
+                card.style.cursor = 'default'; // Remove pointer cursor from all-phases cards
+            });
+        });
+        
+        // Update tab functionality to maintain isolation
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // ...existing tab selection code...
+                
+                // Special handling for foundation tab remains the same, but with more specific selectors
+                if (tabId === 'foundation') {
+                    setTimeout(() => {
+                        const foundationCards = document.querySelectorAll('#foundation .day-card');
+                        // ...existing foundation tab handling...
+                    }, 100);
+                }
+            });
         });
     </script>
 </body>
