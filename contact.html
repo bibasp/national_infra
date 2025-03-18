@@ -3,31 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bibas Pokhrel - Nepal Infrastructure</title>
+    <title>Contact - Bibas Pokhrel</title>
     <link rel="stylesheet" href="css/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
     <style>
-        .circle-img {
-            border-radius: 50%;
-            object-fit: cover;
-            width: 300px;
-            height: 300px;
+        .contact-container {
+            max-width: 800px;
             margin: 0 auto;
-            display: block;
-            border: 3px solid #0078d7;
+            padding: 2rem;
+            text-align: center;
         }
         
-        .profile-photo {
-            width: 300px;
-            height: 300px;
+        .contact-container h1 {
+            margin-bottom: 1.5rem;
+            font-size: 2.5rem;
         }
         
-        .small-circle-img {
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .social-link {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f8f8f8;
             border-radius: 50%;
-            object-fit: cover;
-            width: 100px;
-            height: 100px;
-            display: inline-block;
+            color: #333;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            border: 1px solid #e0e0e0;
+            font-size: 24px;
+        }
+        
+        .social-link:hover {
+            background-color: #4a90e2;
+            color: white;
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .social-link i {
+            font-size: 28px;
+        }
+        
+        .dark-mode .social-link {
+            background-color: #3a3a3a;
+            border-color: #4a4a4a;
+            color: #e0e0e0;
+        }
+        
+        .dark-mode .social-link:hover {
+            background-color: #4a90e2;
+            color: white;
         }
     </style>
 </head>
@@ -36,12 +71,12 @@
         <div class="logo">Bibas Pokhrel</div>
         <nav>
             <ul>
-                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="index.html">Home</a></li>
                 <li><a href="blog.html">Blog</a></li>
                 <li><a href="research.html">Research Summaries</a></li>
                 <li><a href="news.html">What's New</a></li>
                 <li><a href="projects.html">Projects</a></li>
-                <li><a href="contact.html">Contact</a></li>
+                <li><a href="contact.html" class="active">Contact</a></li>
             </ul>
         </nav>
         <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark/light theme">
@@ -50,70 +85,26 @@
     </header>
 
     <main>
-        <section class="hero">
-            <h1>Welcome</h1>
-            <p>Hi, I am a Civil Engineer (NEC Registered) with interests on different types of infrastructure, their resilience, and connectivity. At present, I am contributing to the digitization in the AEC industry, serving as the GIS Expert in the largest potable water supply distribution project of Nepal. When I'm not working, I love to explore GIS, BIM, programming, and IoT, as I see their potential on transforming the way we operate in the AEC industry. From Spatial Analysis to Computer Vision, I have interests in newer and efficient methods of data collection, data management, data analysis, and help in decision making for infrastructure works.</p>
+        <section class="contact-container">
+            <h1>Connect With Me</h1>
+            <p>Feel free to reach out through any of the following platforms:</p>
             
-            <div class="profile-image">
-                <img src="images/bibas_profile.jpg" alt="Nepal BIM Forum; Conference 2024" class="circle-img profile-photo">
-            </div>
-            
-            <div class="cta-buttons">
-                <a href="projects.html" class="btn btn-primary">Browse Projects</a>
-                <a href="dashboard.html" class="btn btn-secondary">View Dashboard</a>
-            </div>
-        </section>
-
-        <section class="dashboard">
-            <h2>Infrastructure Overview</h2>
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <h3>Total Projects</h3>
-                    <div class="stat-number">31</div>
-                </div>
-                
-                <div class="stat-card">
-                    <h3>By Category</h3>
-                    <ul id="category-stats">
-                        <li><span>Transportation</span><span>14</span></li>
-                        <li><span>Energy</span><span>5</span></li>
-                        <li><span>Water Infrastructure</span><span>7</span></li>
-                        <li><span>Rural Development</span><span>3</span></li>
-                        <li><span>Tourism</span><span>2</span></li>
-                    </ul>
-                </div>
-                
-                <div class="stat-card">
-                    <h3>By Province</h3>
-                    <ul id="province-stats">
-                        <li><span>Bagmati</span><span>8</span></li>
-                        <li><span>Gandaki</span><span>3</span></li>
-                        <li><span>Multiple Provinces</span><span>12</span></li>
-                        <li><span>Madhesh</span><span>4</span></li>
-                        <li><span>Others</span><span>4</span></li>
-                    </ul>
-                </div>
-                
-                <div class="stat-card">
-                    <h3>By Status</h3>
-                    <ul id="status-stats">
-                        <li><span>Ongoing</span><span>18</span></li>
-                        <li><span>Completed</span><span>4</span></li>
-                        <li><span>Planning phase</span><span>6</span></li>
-                        <li><span>Halted</span><span>1</span></li>
-                        <li><span>Unknown</span><span>2</span></li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-        
-        <section class="sample-projects">
-            <h2>Featured Projects</h2>
-            <div id="featured-projects-container" class="projects-grid">
-                <!-- Will be populated by JavaScript -->
-            </div>
-            <div class="view-all">
-                <a href="projects.html" class="btn btn-outline">View All Projects</a>
+            <div class="social-links">
+                <a href="https://www.linkedin.com/in/erpokhrel" class="social-link" target="_blank">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a href="https://twitter.com/yourprofile" class="social-link" target="_blank">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="https://github.com/yourprofile" class="social-link" target="_blank">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="https://www.researchgate.net/profile/yourprofile" class="social-link" target="_blank">
+                    <i class="fab fa-researchgate"></i>
+                </a>
+                <a href="mailto:your.email@example.com" class="social-link" target="_blank">
+                    <i class="fas fa-envelope"></i>
+                </a>
             </div>
         </section>
     </main>
@@ -123,34 +114,5 @@
     </footer>
 
     <script src="js/theme-toggle.js"></script>
-    <script src="js/csv-loader.js"></script>
-    <script src="css/js/data.js"></script>
-    <script src="css/js/main.js"></script>
-    <script src="data.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const featuredProjectsContainer = document.getElementById('featured-projects-container');
-            const completedProjects = projectsData.filter(project => project.status === 'Completed and operational').slice(0, 3);
-
-            function createProjectTile(project) {
-                const tile = document.createElement('div');
-                tile.className = 'project-tile';
-                tile.innerHTML = `
-                    <h3>${project.project_name}</h3>
-                    <p><strong>Category:</strong> ${project.type_main_category} - ${project.type_sub_category}</p>
-                    <p><strong>Province:</strong> ${project.Province}</p>
-                    <p><strong>Status:</strong> ${project.status}</p>
-                    <p><strong>Progress:</strong> ${project.physical_progress_percent}%</p>
-                    <p><strong>Start Date:</strong> ${project.start_date}</p>
-                `;
-                return tile;
-            }
-
-            completedProjects.forEach(project => {
-                const tile = createProjectTile(project);
-                featuredProjectsContainer.appendChild(tile);
-            });
-        });
-    </script>
 </body>
 </html>

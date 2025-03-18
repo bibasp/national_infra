@@ -1,107 +1,71 @@
 /**
  * CSV Loader for Nepal Infrastructure Projects
- * Handles loading and parsing the projects CSV file
+ * Fetches and parses the CSV file dynamically
  */
 
-// Adjust the path to be relative to the root of the website
-const CSV_FILE_PATH = './data/nepal_projects.csv';
+const CSV_FILE_PATH = '../data/nepal_projects.csv'; // Adjust path based on your structure
 
-// Function to load the CSV file and parse it
+// Function to fetch and parse CSV
 async function loadProjectsFromCSV() {
     try {
-        console.log('Attempting to load CSV from:', CSV_FILE_PATH);
         const response = await fetch(CSV_FILE_PATH);
         if (!response.ok) {
-            // Check if we're accessing via file:// protocol
-            if (window.location.protocol === 'file:') {
-                throw new Error('Cannot load CSV when accessing via file:// protocol. Please use a web server.');
-            }
             throw new Error(`Failed to load CSV file (${response.status} ${response.statusText})`);
         }
-        
         const csvText = await response.text();
         return parseCSV(csvText);
     } catch (error) {
         console.error('Error loading CSV:', error);
-        // Provide more specific error details for debugging
-        if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
-            if (window.location.protocol === 'file:') {
-                throw new Error('Cannot load CSV via file:// protocol. Please use a web server (see HOW_TO_RUN.md).');
-            }
-            throw new Error('Failed to fetch the CSV file. If running locally, please use a web server.');
-        }
         throw error;
     }
 }
 
 // Parse CSV text into an array of objects
 function parseCSV(csvText) {
-    // Split by lines and remove the first line (header)
     const lines = csvText.split('\n').filter(line => line.trim() !== '');
-    const headers = lines[0].split(',');
-    
-    // Remove any filepath comment from the first header if present
-    if (headers[0].includes('//')) {
-        headers[0] = headers[0].split('//')[1].trim();
-    }
-    
+    const headers = lines[0].split(',').map(header => header.trim());
     const projects = [];
-    
-    // Start from line 1 to skip header
+
     for (let i = 1; i < lines.length; i++) {
-        // Handle commas inside quotes
+        if (!lines[i].trim()) continue;
         const values = parseCSVLine(lines[i]);
-        
-        if (values.length === headers.length) {
-            const project = {};
-            headers.forEach((header, index) => {
-                // Replace "NULL" strings with null values
-                project[header] = values[index] === 'NULL' ? null : values[index];
-            });
-            projects.push(project);
+        if (values.length !== headers.length) {
+            console.warn(`Line ${i} has ${values.length} values but headers has ${headers.length}`);
+            continue;
         }
+        const project = {};
+        headers.forEach((header, index) => {
+            project[header] = values[index] === 'NULL' ? null : values[index];
+        });
+        projects.push(project);
     }
-    
     return projects;
 }
 
-// Function to handle parsing a CSV line with potential quoted values
+// Parse CSV line handling quoted values
 function parseCSVLine(line) {
     const values = [];
-    let inQuote = false;
     let currentValue = '';
-    
+    let inQuotes = false;
+
     for (let i = 0; i < line.length; i++) {
         const char = line[i];
-        
         if (char === '"') {
-            inQuote = !inQuote;
-        } else if (char === ',' && !inQuote) {
-            values.push(currentValue);
+            inQuotes = !inQuotes;
+        } else if (char === ',' && !inQuotes) {
+            values.push(currentValue.trim());
             currentValue = '';
         } else {
             currentValue += char;
         }
     }
-    
-    // Add the last value
-    values.push(currentValue);
+    values.push(currentValue.trim());
     return values;
 }
 
-// Function to get a specific project by ID
-async function getProjectDetailsFromCSV(projectId) {
-    const projects = await loadProjectsFromCSV();
-    return projects.find(project => 
-        project.project_id === projectId || 
-        project.short_name === projectId
-    );
-}
-
-// Helper function to format dates
+// Helper functions
 function formatDate(dateString) {
-    if (!dateString) return '';
-    
+    if (!dateString) return 'N/A';
     const parts = dateString.split('/');
     if (parts.length === 3) {
         const months = ['January', 'February', 'March', 'April', 'May', 'June', 
@@ -111,5 +75,15 @@ function formatDate(dateString) {
     return dateString;
 }
 
-// Start loading the CSV file as soon as possible
-document.addEventListener('DOMContentLoaded', loadProjectsFromCSV);
+function formatCurrency(amount, currency) {
+    if (!amount) return 'Unknown';
+    const num = parseFloat(amount);
+    return `${num.toLocaleString()} ${currency || 'NPR'}`;
+}
+
+function getProjectById(projects, projectId) {
+    return projects.find(project => project.project_id === projectId || project.short_name === projectId);
+}
+
+// Export functions
+export { loadProjectsFromCSV, formatDate, formatCurrency, getProjectById };
