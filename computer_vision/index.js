@@ -1,28 +1,31 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Featured projects section
     const featuredProjectsContainer = document.getElementById('featured-projects');
     
-    // Display loading indicator
-    featuredProjectsContainer.innerHTML = '<div class="loading">Loading featured projects...</div>';
-    
-    // Wait for CSV data to load, then initialize the page
-    loadProjectsFromCSV().then(projects => {
-        // Filter featured projects (e.g., based on a specific criterion)
-        const featuredProjects = projects.filter(project => project.is_featured);
+    if (featuredProjectsContainer) {
+        // Display loading indicator
+        featuredProjectsContainer.innerHTML = '<div class="loading">Loading featured projects...</div>';
         
-        // Clear loading indicator
-        featuredProjectsContainer.innerHTML = '';
-        
-        // Render featured projects
-        renderFeaturedProjects(featuredProjects);
-    }).catch(error => {
-        console.error('Failed to load featured projects:', error);
-        featuredProjectsContainer.innerHTML = `
-            <div class="error-message">
-                <h3>Failed to load featured projects</h3>
-                <p>${error.message}</p>
-                <p>Please check the browser console for more details.</p>
-            </div>`;
-    });
+        // Wait for CSV data to load, then initialize the page
+        loadProjectsFromCSV().then(projects => {
+            // Filter featured projects (e.g., based on a specific criterion)
+            const featuredProjects = projects.filter(project => project.is_featured);
+            
+            // Clear loading indicator
+            featuredProjectsContainer.innerHTML = '';
+            
+            // Render featured projects
+            renderFeaturedProjects(featuredProjects);
+        }).catch(error => {
+            console.error('Failed to load featured projects:', error);
+            featuredProjectsContainer.innerHTML = `
+                <div class="error-message">
+                    <h3>Failed to load featured projects</h3>
+                    <p>${error.message}</p>
+                    <p>Please check the browser console for more details.</p>
+                </div>`;
+        });
+    }
     
     // Render function for featured projects
     function renderFeaturedProjects(projects) {
@@ -71,9 +74,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return 'status-unknown';
     }
 
-    // Add this to your existing script section or create a new one
-    document.addEventListener('DOMContentLoaded', function() {
-    // Animation for foundation phase cards
+    // Course cards functionality - FIXED IMPLEMENTATION
     const foundationCards = document.querySelectorAll('#foundation .day-card');
     
     // Create staggered animation effect
@@ -83,106 +84,48 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 100 * index);
     });
     
-    // Add click event to expand/collapse card content
+    // Add click event for card flip effect
     foundationCards.forEach(card => {
-        card.addEventListener('click', function() {
-            // Toggle expanded class
-            this.classList.toggle('expanded');
+        card.addEventListener('click', function(e) {
+            // Check if any card is already flipped
+            const flippedCard = document.querySelector('#foundation .day-card.flipped');
             
-            // Find content element
-            const content = this.querySelector('.day-content');
-            
-            // Toggle max-height for animation
-            if (this.classList.contains('expanded')) {
-                content.style.maxHeight = content.scrollHeight + 'px';
-            } else {
-                content.style.maxHeight = null;
-            }
-        });
-    });
-    
-    // Add search functionality for foundation days
-    const searchInput = document.createElement('input');
-    searchInput.type = 'text';
-    searchInput.placeholder = 'Search days by topic or keyword...';
-    searchInput.className = 'search-input';
-    searchInput.style.width = '100%';
-    searchInput.style.padding = '0.75rem';
-    searchInput.style.marginBottom = '1.5rem';
-    searchInput.style.borderRadius = 'var(--btn-radius)';
-    searchInput.style.border = '1px solid var(--border)';
-    searchInput.style.backgroundColor = 'var(--bg-secondary)';
-    searchInput.style.color = 'var(--text-primary)';
-    
-    // Insert search before the timeline
-    const foundationContent = document.querySelector('#foundation');
-    foundationContent.insertBefore(searchInput, foundationContent.firstChild);
-    
-    // Search functionality
-    searchInput.addEventListener('input', function() {
-        const searchTerm = this.value.toLowerCase();
-        
-        foundationCards.forEach(card => {
-            const cardText = card.textContent.toLowerCase();
-            if (cardText.includes(searchTerm)) {
-                card.style.display = 'block';
-            } else {
-                card.style.display = 'none';
-            }
-        });
-    });
-
-    document.addEventListener('DOMContentLoaded', function() {
-        // Get all foundation cards
-        const foundationCards = document.querySelectorAll('#foundation .day-card');
-        
-        // Create staggered animation effect
-        foundationCards.forEach((card, index) => {
-            setTimeout(() => {
-                card.classList.add('animate');
-            }, 100 * index);
-        });
-        
-        // Add click event for card flip effect
-        foundationCards.forEach(card => {
-            card.addEventListener('click', function(e) {
-                // Check if any card is already flipped
-                const flippedCard = document.querySelector('#foundation .day-card.flipped');
+            // Toggle flipped state for this card
+            if (this.classList.contains('flipped')) {
+                this.classList.remove('flipped');
                 
-                // Toggle flipped state for this card
-                if (this.classList.contains('flipped')) {
-                    this.classList.remove('flipped');
-                    
-                    // Restore all cards
-                    foundationCards.forEach(otherCard => {
-                        otherCard.classList.remove('faded');
-                    });
-                } else {
-                    // If another card is flipped, un-flip it first
-                    if (flippedCard) {
-                        flippedCard.classList.remove('flipped');
-                    }
-                    
-                    // Flip this card
-                    this.classList.add('flipped');
-                    
-                    // Ensure the flipped card is visible
-                    this.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    
-                    // Fade other cards
-                    foundationCards.forEach(otherCard => {
-                        if (otherCard !== this) {
-                            otherCard.classList.add('faded');
-                        }
-                    });
+                // Restore all cards
+                foundationCards.forEach(otherCard => {
+                    otherCard.classList.remove('faded');
+                });
+            } else {
+                // If another card is flipped, un-flip it first
+                if (flippedCard) {
+                    flippedCard.classList.remove('flipped');
                 }
                 
-                // Prevent event propagation if clicking inside the card
-                e.stopPropagation();
-            });
+                // Flip this card
+                this.classList.add('flipped');
+                
+                // Ensure the flipped card is visible
+                this.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                
+                // Fade other cards
+                foundationCards.forEach(otherCard => {
+                    if (otherCard !== this) {
+                        otherCard.classList.add('faded');
+                    }
+                });
+            }
+            
+            // Prevent event propagation if clicking inside the card
+            e.stopPropagation();
         });
-        
-        // Add search functionality (unchanged)
+    });
+    
+    // Add search functionality
+    const foundationContent = document.querySelector('#foundation');
+    if (foundationContent) {
         const searchInput = document.createElement('input');
         searchInput.type = 'text';
         searchInput.placeholder = 'Search days by topic or keyword...';
@@ -196,7 +139,6 @@ document.addEventListener('DOMContentLoaded', function() {
         searchInput.style.color = 'var(--text-primary)';
         
         // Insert search before the timeline
-        const foundationContent = document.querySelector('#foundation');
         foundationContent.insertBefore(searchInput, foundationContent.firstChild);
         
         // Search functionality
@@ -212,24 +154,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         });
-        
-        // Close flipped card when clicking outside
-        document.addEventListener('click', function(e) {
-            if (!e.target.closest('.day-card')) {
-                const flippedCard = document.querySelector('#foundation .day-card.flipped');
-                if (flippedCard) {
-                    flippedCard.classList.remove('flipped');
-                    foundationCards.forEach(card => {
-                        card.classList.remove('faded');
-                    });
-                }
-            }
-        });
-    });
+    }
     
-});
-
-
-
-
+    // Close flipped card when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.day-card')) {
+            const flippedCard = document.querySelector('#foundation .day-card.flipped');
+            if (flippedCard) {
+                flippedCard.classList.remove('flipped');
+                foundationCards.forEach(card => {
+                    card.classList.remove('faded');
+                });
+            }
+        }
+    });
 });
