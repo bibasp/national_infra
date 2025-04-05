@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Infrastructure Projects - Nepal Infrastructure Hub</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <meta name="description" content="Explore infrastructure projects from around the world">
+    
+    <!-- Theme color handling -->
+    <script>
+        // Check for saved theme preference or use default
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', currentTheme);
+    </script>
+</head>
+<body>
+    <header>
+        <nav class="main-nav">
+            <div class="logo">
+                <a href="index.html">Nepal Infrastructure Hub</a>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="projects.html">Projects</a>
+                <a href="GIS/gis.html">GIS</a>
+                <a href="global-projects.html" class="active">Global Hub</a>
+                <a href="computer_vision/index.html">Computer Vision</a>
+                <button id="theme-toggle" class="theme-toggle">
+                    <span class="toggle-icon">🌓</span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="page-header">
+            <h1>Global Infrastructure Projects</h1>
+            <p>Explore infrastructure projects from around the world</p>
+        </section>
+
+        <section class="global-hub-container">
+            <div class="card">
+                <h2>Global Infrastructure Insight Hub</h2>
+                <p>Access our advanced platform for tracking and analyzing global infrastructure projects, featuring:</p>
+                
+                <ul class="feature-list">
+                    <li>Comprehensive project database across continents</li>
+                    <li>Interactive maps and visualization tools</li>
+                    <li>Detailed analytics and progress tracking</li>
+                    <li>Comparison tools for benchmarking</li>
+                </ul>
+                
+                <div class="cta-container">
+                    <a href="global-hub/index.html" class="btn btn-primary">Access Global Hub Platform</a>
+                    <a href="projects.html" class="btn btn-outline">Return to Nepal Projects</a>
+                </div>
+            </div>
+
+            <div class="featured-global-projects">
+                <h3>Featured Global Projects</h3>
+                <div class="projects-preview">
+                    <!-- Preview cards would be added here -->
+                    <p>Visit the Global Hub platform to explore all international projects</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Bibas Pokhrel. All rights reserved.</p>
+    </footer>
+
+    <script src="js/theme-toggle.js"></script>
+</body>
+</html>
