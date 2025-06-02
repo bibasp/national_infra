@@ -6,26 +6,7 @@
     <title>Civil Engineering Blog - Bibas Pokhrel</title>
     <link rel="stylesheet" href="css/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- NY Times font for better readability -->
-    <link href="https://fonts.googleapis.com/css2?family=Georgia:wght@400;700&family=Times+New+Roman&display=swap" rel="stylesheet">
     <style>
-        /* Enhanced typography with NY Times-style fonts */
-        .blog-content {
-            font-family: Georgia, 'Times New Roman', serif;
-            line-height: 1.7;
-        }
-        
-        .blog-title {
-            font-family: Georgia, 'Times New Roman', serif;
-            font-weight: 700;
-            line-height: 1.3;
-        }
-        
-        .blog-excerpt {
-            font-family: Georgia, 'Times New Roman', serif;
-            line-height: 1.6;
-        }
-        
         .blog-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -43,12 +24,6 @@
             flex-direction: column;
         }
         
-        .blog-post.featured {
-            grid-column: 1 / -1;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
         .blog-post:hover {
             transform: translateY(-5px);
             box-shadow: var(--shadow-lg);
@@ -57,10 +32,6 @@
         .blog-image {
             height: 200px;
             overflow: hidden;
-        }
-        
-        .blog-post.featured .blog-image {
-            height: 300px;
         }
         
         .blog-image img {
@@ -87,7 +58,6 @@
             margin-bottom: 0.5rem;
             font-size: var(--font-size-sm);
             color: var(--text-tertiary);
-            font-family: Inter, sans-serif;
         }
         
         .blog-category {
@@ -98,18 +68,12 @@
             border-radius: 3px;
             font-size: 0.8rem;
             font-weight: 500;
-            font-family: Inter, sans-serif;
         }
         
         .blog-title {
             margin-top: 0.5rem;
             margin-bottom: 1rem;
             font-size: var(--font-size-lg);
-        }
-        
-        .blog-post.featured .blog-title {
-            font-size: 1.8rem;
-            margin-bottom: 1.5rem;
         }
         
         .blog-excerpt {
@@ -136,7 +100,6 @@
             padding: 0.5rem 1rem;
             cursor: pointer;
             transition: var(--transition);
-            font-family: Inter, sans-serif;
         }
         
         .filter-tag:hover, .filter-tag.active {
@@ -147,16 +110,6 @@
         
         .dark-mode .blog-title {
             color: var(--text-color-light, #ffffff);
-        }
-        
-        .content-disclaimer {
-            font-size: 0.85rem;
-            color: var(--text-tertiary);
-            font-style: italic;
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 1px solid var(--border);
-            font-family: Inter, sans-serif;
         }
     </style>
 </head>
@@ -187,46 +140,26 @@
 
         <section class="blog-filter">
             <button class="filter-tag active">All</button>
-            <button class="filter-tag">Career Development</button>
             <button class="filter-tag">Structural Engineering</button>
             <button class="filter-tag">Water Resources</button>
             <button class="filter-tag">Transportation</button>
             <button class="filter-tag">Geotechnical</button>
-            <button class="filter-tag">Smart Infrastructure</button>
+            <button class="filter-tag">Blog</button>
             <button class="filter-tag">Sustainability</button>
         </section>
 
         <section class="blog-grid">
-            <!-- New featured blog post -->
-            <article class="blog-post featured">
-                <div class="blog-image">
-                    <img src="images/blog-career-passion.jpg" alt="Young engineer working on GIS mapping project" onerror="this.src='https://via.placeholder.com/800x300?text=Choosing+Passion+Over+Paychecks'">
-                </div>
-                <div class="blog-content">
-                    <div class="blog-meta">
-                        <span class="blog-category">Career Development</span>
-                        <span class="blog-date">March 15, 2025</span>
-                    </div>
-                    <h2 class="blog-title">Choosing Passion Over Paychecks: A Young Engineer's Bet on the Future</h2>
-                    <p class="blog-excerpt">The job offer was sitting on my desk for three days, untouched. Double my current salary. Immediate start. A construction company that desperately needed someone with my civil engineering background. All I had to do was say yes.</p>
-                    <p class="blog-excerpt">A personal reflection on the difficult choice between immediate financial security and long-term career specialization, told through the lens of working on Nepal's largest water distribution project while betting on the future of spatial intelligence in construction.</p>
-                    <div class="blog-footer">
-                        <a href="blog/choosing-passion-over-paychecks.html" class="btn btn-outline">Continue Reading</a>
-                    </div>
-                </div>
-            </article>
-
             <article class="blog-post">
                 <div class="blog-image">
-                    <img src="images/blog-bim.jpg" alt="BIM Model of a bridge" onerror="this.src='https://via.placeholder.com/400x250?text=BIM+in+Civil+Engineering'">
+                    <img src="images/blog-bim.jpg" alt="The Dilemma" onerror="this.src='https://via.placeholder.com/400x250?text=BIM+in+Civil+Engineering'">
                 </div>
                 <div class="blog-content">
                     <div class="blog-meta">
-                        <span class="blog-category">Smart Infrastructure</span>
+                        <span class="blog-category">Bloge</span>
                         <span class="blog-date">March 10, 2025</span>
                     </div>
-                    <h2 class="blog-title">Leveraging BIM for Nepal's Infrastructure Development</h2>
-                    <p class="blog-excerpt">Building Information Modeling is revolutionizing infrastructure development in Nepal. Here's how we're implementing BIM technologies to improve project delivery and lifecycle management.</p>
+                    <h2 class="blog-title">Choosing Passion Over Paychecks: A Young Engineer's Bet on the Future</h2>
+                    <p class="blog-excerpt">The pain of choices isn't really about the specific decision. It's about the uncertainty that follows every meaningful choice we make. But perhaps that uncertainty is the price of building something genuinely valuable, something that extends beyond the immediate transaction of time for money.</p>
                     <div class="blog-footer">
                         <a href="#" class="btn btn-outline">Continue Reading</a>
                     </div>
